@@ -1,0 +1,17 @@
+build/
+.vscode/
+.idea/
+cmake-build-debug/
+
+.cifuzz*/
+*fuzz*_inputs
+
+lcov.info
+
+!.cifuzz-findings/
+
+.cifuzz-findings/*
+!.cifuzz-findings/unruffled_labrador/
+.cifuzz-findings/unruffled_labrador/.lock
+!.cifuzz-findings/predictive_ant/
+.cifuzz-findings/predictive_ant/.lock
