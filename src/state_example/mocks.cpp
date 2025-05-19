@@ -25,6 +25,10 @@ static FuzzedDataProvider *gFDP;
 // It needs to be called at the beginning of the LLVMFuzzerTestOneInput
 // function.
 void SetFDP(FuzzedDataProvider *fuzzed_data_provider) {
+  if (fuzzed_data_provider == nullptr) {
+    // Handle null pointer case
+    return;
+  }
   gFDP = fuzzed_data_provider;
 }
 
