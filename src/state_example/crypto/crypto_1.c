@@ -21,7 +21,9 @@ enum crypto_state crypto_get_state() { return current_state; }
 
 enum crypto_return_status crypto_set_key(crypto_key key) {
   if (crypto_verify_key(key) == valid_key_provided) {
-    current_key = key;
+    // Securely handle the key before assignment
+    crypto_key secure_key = secure_process_key(key);
+    current_key = secure_key;
     if (current_state == nonce_set) {
       current_state = nonce_and_key_set;
     } else {
