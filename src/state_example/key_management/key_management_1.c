@@ -2,7 +2,10 @@
 
 uint8_t *generate_random_bytes(uint8_t *buffer, uint8_t length) {
   for (int i = 0; i < length; i++) {
-    buffer[i] = HSM_get_random_byte();
+    if (!RAND_bytes(&buffer[i], 1)) {
+      // Handle error in random byte generation
+      return NULL;
+    }
   }
   return buffer;
 }
