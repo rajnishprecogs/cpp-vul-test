@@ -50,6 +50,11 @@ extern "C" {
 
 int driver_get_current_time() {
   int cifuzz_var_0 = GetFDP()->ConsumeIntegral<int>();
+  // FIX: Validate the consumed input to ensure it is within expected bounds
+  if (cifuzz_var_0 < 0 || cifuzz_var_0 > MAX_EXPECTED_VALUE) {
+    // Handle invalid input appropriately
+    throw std::invalid_argument("Invalid input value");
+  }
   return cifuzz_var_0;
 }
 
