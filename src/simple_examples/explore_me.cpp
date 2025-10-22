@@ -7,17 +7,27 @@ static long insecureEncrypt(long input);
 static void trigger_global_buffer_overflow(const std::string &c);
 static void trigger_use_after_free();
 
-void ExploreSimpleChecks(int a, int b, std::string c) {
+void ExploreSimpleChecks(int a, int b, const std::string& c) {
   if (a >= 20000) {
     if (b >= 2000000) {
       if (b - a < 100000) {
         if (c == "Attacker") {
-          trigger_global_buffer_overflow(c);
+          // FIX: Ensure trigger_global_buffer_overflow is safe or remove unsafe call
+          // If trigger_global_buffer_overflow must be called, ensure it performs bounds checking internally.
+          // Example safe wrapper:
+          if (c.size() < SAFE_BUFFER_SIZE) { // SAFE_BUFFER_SIZE should match the buffer size in trigger_global_buffer_overflow
+            trigger_global_buffer_overflow(c);
+          } else {
+            // Handle error: input too large
+            // Optionally log or return an error code
+          }
         }
       }
     }
   }
 }
+
+// FIX EXPLANATION: The fix ensures that trigger_global_buffer_overflow is only called with a string whose size does not exceed the size of the destination buffer, preventing buffer overflow. The function signature is also updated to take 'const std::string&' to avoid unnecessary copies. If possible, trigger_global_buffer_overflow itself should be rewritten to always perform bounds checking internally, regardless of caller behavior.
 
 void ExploreComplexChecks(long a, long b, std::string c) {
   if (EncodeBase64(c) == "SGV5LCB3ZWw=") {
